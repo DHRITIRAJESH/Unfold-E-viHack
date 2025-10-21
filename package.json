@@ -20,8 +20,11 @@
   },
   "homepage": "https://github.com/DHRITIRAJESH/Unfold-E-viHack#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2",
+    "openai": "^6.6.0"
   }
 }
