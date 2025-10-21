@@ -10,9 +10,15 @@ export const ALL_CASES = [
         difficulty: 'Moderate',
         evidence: [
             { id: 'e1', text: 'Economic problems in East Germany' },
+<<<<<<< HEAD
             { id: 'e2', text: 'Gorbachev’s Reforms' },
             { id: 'e3', text: 'Mass protests in Leipzig ' },
             { id: 'e4', text: 'Hungarian Border Opening' },
+=======
+            { id: 'e2', text: 'Gorbachev’s Reforms (1985)' },
+            { id: 'e3', text: 'Mass protests in Leipzig (1989)' },
+            { id: 'e4', text: 'Hungarian Border Opening (May 1989)' },
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
         ]
     },
     {

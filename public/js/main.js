@@ -2,8 +2,13 @@
 
 import { ALL_CASES } from './data.js';
 // UPDATED IMPORT: Added populateAIBotChat, and ensured drawCanvasElements is imported
+<<<<<<< HEAD
 import { renderHomePage, renderMindMapEditor, drawCanvasElements, populateAIBotChat, initializeTimeline, updateTimeline, drawTimeline, updateCanvasHeight, updateTimelineHighlighting, editYear, extractYearFromText, getTimelinePosition, findClosestYearLine, repositionNodesOnTimeline, renderAssessmentPage} from './ui.js'; 
 import { initializeFirebase, saveMindMap} from './firebase.js';
+=======
+import { renderHomePage, renderMindMapEditor, drawCanvasElements, populateAIBotChat } from './ui.js'; 
+import { initializeFirebase } from './firebase.js';
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 
 // --- GLOBAL STATE ---
 let mindMap = { nodes: [], links: [] };
@@ -42,9 +47,12 @@ function showHomePage() {
 
 async function startMindMap(caseData) {
     currentCase = caseData;
+<<<<<<< HEAD
     
     // Store case data globally for the modal to access
     window.currentCaseData = caseData;
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 
     document.getElementById('main-content').innerHTML = `
         <div class="text-center py-20">
@@ -62,18 +70,29 @@ async function loadAndRenderMindMap(caseData) {
     
     // Calculate horizontal center position for the outcome node at the top
     const canvasContainer = document.getElementById('mind-map-canvas');
+<<<<<<< HEAD
     const canvasWidth = canvasContainer ? canvasContainer.offsetWidth : 800; // fallback width
     
     const nodeWidth = 180; // min-w-[180px] from CSS
     const centerX = (canvasWidth - nodeWidth) / 2;
     const topY = 50; // Keep it at the top like before
+=======
+    const canvasWidth = canvasContainer ? canvasContainer.offsetWidth : 800;
+    
+    const nodeWidth = 180;
+    const centerX = (canvasWidth - nodeWidth) / 2;
+    const topY = 50; 
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     
     const initialMap = {
         nodes: [{ id: "outcome", text: caseData.headline, x: centerX, y: topY, isFixed: true, type: "outcome" }],
         links: []
     };
 
+<<<<<<< HEAD
     // Replace this with your API call to load data
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     const data = await loadMindMapFromServer(caseData.id);
 
     if (data && data.nodes && data.nodes.length > 0) {
@@ -81,6 +100,7 @@ async function loadAndRenderMindMap(caseData) {
             nodes: data.nodes,
             links: data.links
         };
+<<<<<<< HEAD
         console.log('Loaded saved data:', mindMap);
     } else {
         mindMap = initialMap;
@@ -110,6 +130,27 @@ async function loadMindMapFromServer(caseId) {
     // Example placeholder, replace with fetch call
     // return fetch(`/api/mindmaps/${caseId}`).then(res => res.json());
     return null; // default return for now
+=======
+    } else {
+        mindMap = initialMap;
+        await saveMindMapToServer(caseData.id, mindMap);
+    }
+    // MODIFIED: Pass chatHistory to the renderer
+    renderMindMapEditor(caseData, mindMap, interactionHandlers, chatHistory); 
+}
+
+// --- API Calls (from original Chatbot-focused file) ---
+async function loadMindMapFromServer(caseId) {
+    try {
+        const response = await fetch(`/api/mindmaps/${caseId}`);
+        if (response.ok) {
+            return response.json();
+        }
+    } catch (error) {
+        console.error("Error loading mind map:", error);
+    }
+    return null; 
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 }
 
 // CHAT API CALL ADDED
@@ -142,6 +183,10 @@ async function saveMindMapToServer(caseId, mindMapData) {
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 // --- INTERACTION HANDLERS ---
 const interactionHandlers = {
     handleDragStart,
@@ -149,8 +194,12 @@ const interactionHandlers = {
     handleDrop,
     handleDeleteNode, // From timeline version
     // CHAT HANDLER ADDED
+<<<<<<< HEAD
     handleChatSubmit,
     handleFinalizeMap
+=======
+    handleChatSubmit 
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 };
 
 // ===================================
@@ -328,7 +377,11 @@ function handleDragEnd(event) { // Added 'event' argument for findClosestYearLin
     draggingNodeId = null;
 
     // Redraw timeline and canvas elements
+<<<<<<< HEAD
     updateTimelineHighlighting(mindMap);
+=======
+    updateTimelineHighlighting();
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory); // MODIFIED: Pass chatHistory
     saveMindMapToServer(currentCase.id, mindMap);
 }
@@ -363,7 +416,10 @@ function handleNodeClick(nodeId) {
     
     // MODIFIED: Pass chatHistory to drawCanvasElements
     drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory);
+<<<<<<< HEAD
     updateGlobalVariables();
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 }
 
 function handleDrop(e) {
@@ -404,6 +460,10 @@ function handleDrop(e) {
     newY = Math.max(0, Math.min(maxY, newY));
 
     let updatedText = evidenceFact.replace(/\s*\(\d{4}\)/, ''); // Remove any existing year
+<<<<<<< HEAD
+=======
+    updatedText = `${updatedText} (${year})`; // Add the user-selected year
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     
     mindMap.nodes.push({
         id: `cause-${Date.now()}`,
@@ -414,8 +474,13 @@ function handleDrop(e) {
         year: year
     });
     
+<<<<<<< HEAD
     drawTimeline(mindMap);
     updateTimelineHighlighting(mindMap);
+=======
+    drawTimeline();
+    updateTimelineHighlighting();
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     
     // MODIFIED: Pass chatHistory to drawCanvasElements
     drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory);
@@ -440,7 +505,10 @@ function handleDeleteNode(nodeId) {
     // MODIFIED: Pass chatHistory to drawCanvasElements
     drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory);
     saveMindMapToServer(currentCase.id, mindMap);
+<<<<<<< HEAD
     updateGlobalVariables();
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 }
 
 // ===================================
@@ -478,7 +546,228 @@ async function handleChatSubmit(message) {
 // ===================================
 
 
+<<<<<<< HEAD
 // --- TIMELINE FUNCTIONS (Now imported from ui.js) ---
+=======
+// --- TIMELINE FUNCTIONS (Unchanged from your second file) ---
+
+function initializeTimeline() {
+    // ... (Your existing initializeTimeline function)
+    const startYearInput = document.getElementById('start-year');
+    const endYearInput = document.getElementById('end-year');
+    const updateButton = document.getElementById('update-timeline');
+    
+    if (startYearInput && endYearInput && updateButton) {
+        startYearInput.value = timelineStartYear;
+        endYearInput.value = timelineEndYear;
+        
+        updateButton.addEventListener('click', updateTimeline);
+        
+        updateCanvasHeight();
+    } else {
+        setTimeout(initializeTimeline, 100);
+    }
+}
+
+function updateTimeline() {
+    const startYearInput = document.getElementById('start-year');
+    const endYearInput = document.getElementById('end-year');
+    
+    if (startYearInput && endYearInput) {
+        timelineStartYear = parseInt(startYearInput.value);
+        timelineEndYear = parseInt(endYearInput.value);
+        
+        updateCanvasHeight();
+        drawTimeline();
+        repositionNodesOnTimeline();
+        
+        // MODIFIED: Pass chatHistory to drawCanvasElements
+        drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory);
+        saveMindMapToServer(currentCase.id, mindMap);
+    } 
+}
+
+function drawTimeline() {
+    const timelineYears = document.getElementById('timeline-years');
+    if (!timelineYears) {
+        return;
+    }
+    
+    timelineYears.innerHTML = '';
+    
+    const canvas = document.getElementById('mind-map-canvas');
+    if (!canvas) {
+        return;
+    }
+    
+    timelineHeight = canvas.offsetHeight - 200;
+    const yearSpacing = 80;
+    const timelineStartY = 180;
+    
+    const usedYears = new Set();
+    mindMap.nodes.forEach(node => {
+        if (node.type !== 'outcome') {
+            const year = extractYearFromText(node.text);
+            if (year >= timelineStartYear && year <= timelineEndYear) {
+                usedYears.add(year);
+            }
+        }
+    });
+    
+    for (let year = timelineEndYear; year >= timelineStartYear; year--) {
+        const isUsed = usedYears.has(year);
+        
+        const yearIndex = timelineEndYear - year;
+        const yPosition = timelineStartY + (yearIndex * yearSpacing) - 25;
+        
+        const yearElement = document.createElement('div');
+        yearElement.className = `absolute text-xs font-semibold px-2 py-1 rounded cursor-pointer hover:bg-gray-700 ${
+            isUsed ? 'text-yellow-300 bg-yellow-800' : 'text-blue-300 bg-gray-800'
+        }`;
+        yearElement.textContent = year;
+        yearElement.setAttribute('data-year', year);
+        
+        yearElement.style.left = '0px';
+        yearElement.style.top = `${yPosition}px`;
+        
+        yearElement.addEventListener('click', () => editYear(year, yearElement));
+        
+        timelineYears.appendChild(yearElement);
+        
+        const yearLine = document.createElement('div');
+        yearLine.className = `absolute w-4 h-0.5 ${isUsed ? 'bg-yellow-400' : 'bg-blue-400'}`;
+        yearLine.style.left = '16px';
+        yearLine.style.top = `${timelineStartY + (yearIndex * yearSpacing)}px`;
+        timelineYears.appendChild(yearLine);
+    }
+}
+
+function updateCanvasHeight() {
+    const canvas = document.getElementById('mind-map-canvas');
+    if (!canvas) {
+        return;
+    }
+    
+    const yearRange = timelineEndYear - timelineStartYear;
+    const timelineStartY = 180;
+    const yearSpacing = 80;
+    const bottomMargin = 100;
+    
+    const requiredHeight = timelineStartY + (yearRange * yearSpacing) + bottomMargin;
+    
+    canvas.style.height = `${requiredHeight}px`;
+    timelineHeight = requiredHeight;
+}
+
+function updateTimelineHighlighting() {
+    const yearElements = document.querySelectorAll('[data-year]');
+    
+    const usedYears = new Set();
+    mindMap.nodes.forEach(node => {
+        if (node.type !== 'outcome') {
+            const year = extractYearFromText(node.text);
+            if (year >= timelineStartYear && year <= timelineEndYear) {
+                usedYears.add(year);
+            }
+        }
+    });
+    
+    yearElements.forEach(element => {
+        const year = parseInt(element.getAttribute('data-year'));
+        const isUsed = usedYears.has(year);
+        
+        element.className = `absolute text-xs font-semibold px-2 py-1 rounded cursor-pointer hover:bg-gray-700 ${
+            isUsed ? 'text-yellow-300 bg-yellow-800' : 'text-blue-300 bg-gray-800'
+        }`;
+        
+        const yearLine = element.nextElementSibling;
+        if (yearLine) {
+            yearLine.className = `absolute w-4 h-0.5 ${isUsed ? 'bg-yellow-400' : 'bg-blue-400'}`;
+        }
+    });
+}
+
+function editYear(year, element) {
+    const newYear = prompt(`Edit year for this position:`, year);
+    if (newYear && !isNaN(newYear) && newYear !== year.toString()) {
+        const newYearNum = parseInt(newYear);
+        
+        element.textContent = newYearNum;
+        element.setAttribute('data-year', newYearNum);
+        
+        const yPosition = element.style.top;
+        mindMap.nodes.forEach(node => {
+            if (node.type !== 'outcome' && Math.abs(node.y - parseInt(yPosition)) < 20) {
+                const nodeYear = extractYearFromText(node.text);
+                if (nodeYear === year) {
+                    node.text = node.text.replace(/\(\d{4}\)/, `(${newYearNum})`);
+                }
+            }
+        });
+        
+        // MODIFIED: Pass chatHistory to drawCanvasElements
+        drawCanvasElements(mindMap, interactionHandlers, selectedNodeId, chatHistory);
+    }
+}
+
+function extractYearFromText(text) {
+    const yearMatch = text.match(/\((\d{4})\)/);
+    if (yearMatch) {
+        return parseInt(yearMatch[1]);
+    }
+    
+    return Math.floor((timelineStartYear + timelineEndYear) / 2);
+}
+
+function getTimelinePosition(year) {
+    const timelineStartY = 180;
+    const yearSpacing = 80;
+    
+    const yearIndex = timelineEndYear - year;
+    const yPosition = timelineStartY + (yearIndex * yearSpacing);
+    return yPosition;
+}
+
+function findClosestYearLine(mouseY) {
+    const canvas = document.getElementById('mind-map-canvas');
+    if (!canvas) return null;
+    
+    const rect = canvas.getBoundingClientRect();
+    const relativeY = mouseY - rect.top;
+    
+    const timelineStartY = 180;
+    const yearSpacing = 80;
+    
+    let closestYear = null;
+    let closestDistance = Infinity;
+    
+    for (let year = timelineEndYear; year >= timelineStartYear; year--) {
+        const yearIndex = timelineEndYear - year;
+        const yearY = timelineStartY + (yearIndex * yearSpacing);
+        const distance = Math.abs(relativeY - yearY);
+        
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestYear = year;
+        }
+    }
+    
+    return closestYear;
+}
+
+function repositionNodesOnTimeline() {
+    mindMap.nodes.forEach(node => {
+        if (node.type !== 'outcome') {
+            const year = extractYearFromText(node.text);
+            const nodeHeight = 60; 
+            const halfHeight = nodeHeight / 2;
+            
+            node.y = getTimelinePosition(year) - halfHeight;
+            node.x = 250;
+        }
+    });
+}
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 
 // --- INITIALIZATION ---
 function onAuthReady(uid) {
@@ -493,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('back-to-home').addEventListener('click', showHomePage);
     console.log("About to call initializeFirebase");
     initializeFirebase(onAuthReady);
+<<<<<<< HEAD
 });
 function handleFinalizeMap() {
   console.log("Finalize button clicked — proceeding to Assessment Page.");
@@ -521,3 +811,6 @@ function handleReturnToEditor() {
   renderMindMapEditor(currentCase, mindMap, interactionHandlers, chatHistory);
 }
 
+=======
+});
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529

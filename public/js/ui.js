@@ -61,7 +61,11 @@ export function renderMindMapEditor(caseData, mindMapState, interactionHandlers,
             </div>
         <div id="mind-map-canvas" class="mind-map-canvas-container relative bg-gray-950 border-4 border-dashed border-gray-700 rounded-xl shadow-inner shadow-black/50">
             <div class="absolute top-2 left-2 text-gray-600 text-xs italic">Timeline View - Drag evidence to timeline</div>
+<<<<<<< HEAD
             <div id="timeline-controls" class="absolute top-2 right-2 bg-gray-800 p-2 rounded-lg shadow-lg">
+=======
+            <div id="timeline-controls" class="absolute top-2 right-2 bg-gray-800 p-2 rounded-lg shadow-lg z-30">
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
                 <div class="flex items-center space-x-2 text-sm">
                     <label class="text-gray-300">Start:</label>
                     <input type="number" id="start-year" value="1985" class="w-16 px-2 py-1 bg-gray-700 text-white rounded border border-gray-600">
@@ -70,9 +74,15 @@ export function renderMindMapEditor(caseData, mindMapState, interactionHandlers,
                     <button id="update-timeline" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-500">Update</button>
                 </div>
             </div>
+<<<<<<< HEAD
                 <div id="timeline-line" class="absolute left-20 top-0 bottom-0 w-1 bg-blue-500"></div>
                 <div id="timeline-years" class="absolute left-16 top-0 bottom-0"></div>
                 <svg id="svg-links" class="absolute inset-0 w-full h-full pointer-events-none z-0"><defs id="svg-defs"></defs></svg>
+=======
+            <div id="timeline-line" class="absolute left-20 top-0 bottom-0 w-1 bg-blue-500"></div>
+            <div id="timeline-years" class="absolute left-16 top-0 bottom-0"></div>
+            <svg id="svg-links" class="absolute inset-0 w-full h-full pointer-events-none z-0"><defs id="svg-defs"></defs></svg>
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
             </div>
             <div id="ai-chat-panel" class="bg-gray-800 rounded-xl shadow-2xl p-4 overflow-hidden"></div>
         </div>
@@ -88,9 +98,16 @@ export function renderMindMapEditor(caseData, mindMapState, interactionHandlers,
     
     // Populate the components
     populateEvidenceDrawer(caseData.evidence);
+<<<<<<< HEAD
     populateAIBotChat(caseData, mindMapState, chatHistory, interactionHandlers);
     drawCanvasElements(mindMapState, interactionHandlers, null);
     document.querySelector('footer').innerHTML = `Current Case: <span class="text-gray-300">${caseData.headline}</span>`;
+=======
+    // 1. Pass chatHistory and Interaction Handlers
+    populateAIBotChat(caseData, mindMapState, chatHistory, interactionHandlers);
+    drawCanvasElements(mindMapState, interactionHandlers, null, chatHistory);
+    document.querySelector('footer').innerHTML = `Current Case: <span class="text-gray-300 font-bold">${caseData.headline}</span>`;
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 }
 
 // --- SUB-COMPONENT RENDERERS ---
@@ -98,6 +115,7 @@ export function renderMindMapEditor(caseData, mindMapState, interactionHandlers,
 function populateEvidenceDrawer(evidence) {
     const list = document.getElementById('evidence-list');
     list.innerHTML = '';
+<<<<<<< HEAD
     
     // Add "Add Evidence" button at the top
     const addButton = document.createElement('div');
@@ -116,6 +134,8 @@ function populateEvidenceDrawer(evidence) {
     list.appendChild(addButton);
     
     // Add existing evidence cards
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     evidence.forEach(item => {
         const card = document.createElement('div');
         card.className = "bg-gray-900 text-gray-100 p-3 rounded-lg shadow-lg hover:bg-gray-700 transition duration-150 ease-in-out cursor-grab border-l-4 border-yellow-500 font-medium";
@@ -123,7 +143,13 @@ function populateEvidenceDrawer(evidence) {
         card.setAttribute('draggable', true);
         card.addEventListener('dragstart', (e) => {
             console.log('Drag started with:', item.text);
+<<<<<<< HEAD
             e.dataTransfer.setData("text/plain", item.text);
+=======
+            // Include both the text and a type hint in the drag data
+            e.dataTransfer.setData("text/plain", item.text); 
+            e.dataTransfer.setData("application/json", JSON.stringify({ text: item.text, type: 'cause' }));
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
             e.dataTransfer.effectAllowed = "copy";
         });
         card.addEventListener('dragend', (e) => {
@@ -133,6 +159,7 @@ function populateEvidenceDrawer(evidence) {
     });
 }
 
+<<<<<<< HEAD
 // Function to show the add evidence modal
 function showAddEvidenceModal() {
     // Create modal overlay
@@ -248,6 +275,8 @@ function addCustomEvidence() {
     closeEvidenceModal();
 }
 
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 /** Renders all chat elements and the submit/finalize controls. */
 export function populateAIBotChat(caseData, mindMapState, chatHistory, interactionHandlers = {}) {
     const container = document.getElementById('ai-chat-panel');
@@ -318,12 +347,15 @@ function renderChatMessages(history) {
     const messagesDiv = document.createElement('div');
     messagesDiv.id = 'messages-content';
 
+<<<<<<< HEAD
     // Add null check for history
     if (!history || !Array.isArray(history)) {
         console.log('No chat history provided, using empty array');
         history = [];
     }
 
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     history.forEach(msg => {
         const isUser = msg.role === 'user';
         const isLoading = msg.role === 'loading';
@@ -369,6 +401,7 @@ function renderChatMessages(history) {
 /** Draws all nodes and links on the canvas. */
 export function drawCanvasElements(mindMapState, interactionHandlers, selectedNodeId) {
     const canvasContainer = document.getElementById('mind-map-canvas');
+<<<<<<< HEAD
     if (!canvasContainer) {
         console.log('Canvas container not found!');
         return;
@@ -377,12 +410,23 @@ export function drawCanvasElements(mindMapState, interactionHandlers, selectedNo
     // Clear existing nodes and delete buttons
     Array.from(canvasContainer.children).forEach(child => {
         if (child.classList.contains('node-base') || child.tagName === 'BUTTON') {
+=======
+    if (!canvasContainer) return;
+    
+    // Clear existing nodes and delete buttons
+    Array.from(canvasContainer.children).forEach(child => {
+        if (child.classList.contains('node-base') || (child.tagName === 'BUTTON' && child.textContent === '×')) {
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
             canvasContainer.removeChild(child);
         }
     });
 
     // Add Nodes
+<<<<<<< HEAD
     mindMapState.nodes.forEach((node, index) => {
+=======
+    mindMapState.nodes.forEach(node => {
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
         canvasContainer.appendChild(createNodeElement(node, selectedNodeId, interactionHandlers));
     });
 
@@ -396,14 +440,35 @@ function createNodeElement(node, selectedNodeId, { handleDragStart, handleNodeCl
     const isSelected = selectedNodeId === node.id;
     
     // Set a max width and use flex-col for the content inside for better wrapping
+<<<<<<< HEAD
     const baseClasses = "node-base rounded-xl px-4 py-2 shadow-xl transition-all duration-150 transform min-w-[200px] max-w-[250px] text-center font-semibold text-sm select-none whitespace-normal";
+=======
+    const baseClasses = "node-base rounded-xl px-4 py-3 shadow-xl transition-all duration-150 transform min-w-[180px] max-w-[200px] text-center font-semibold text-base select-none whitespace-normal";
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     const typeClasses = isOutcome ? "bg-red-700 text-white border-4 border-red-500 z-20 shadow-red-500/50 cursor-default" : "bg-gray-800 text-white border-2 border-gray-600 z-10 hover:bg-gray-700 cursor-grab";
     const selectedClasses = isSelected ? "ring-4 ring-offset-2 ring-yellow-500 ring-offset-gray-900" : "";
     
     const nodeElement = document.createElement('div');
     nodeElement.id = node.id;
     nodeElement.className = `${baseClasses} ${typeClasses} ${selectedClasses}`;
+<<<<<<< HEAD
     nodeElement.textContent = node.text.length > 50 ? node.text.substring(0, 47) + '...' : node.text;
+=======
+    
+    // Display text and year if available
+    const nodeText = document.createElement('div');
+    nodeText.className = 'text-center';
+    nodeText.textContent = node.text.length > 50 ? node.text.substring(0, 47) + '...' : node.text;
+
+    const nodeYear = document.createElement('div');
+    nodeYear.className = 'text-xs font-normal text-gray-400 mt-1';
+    if (node.year) {
+        nodeYear.textContent = `Year: ${node.year}`;
+    }
+    
+    nodeElement.appendChild(nodeText);
+    nodeElement.appendChild(nodeYear);
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     
     // Add delete button for selected non-outcome nodes
     if (isSelected && !isOutcome) {
@@ -495,6 +560,10 @@ function drawLinks(mindMapState, selectedNodeId) {
 
     svg.innerHTML = '<defs id="svg-defs"></defs>'; // Clear previous links but keep defs
     
+<<<<<<< HEAD
+=======
+    // Ensure the markers are defined
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     if (!document.getElementById('arrowhead-d1d5db')) {
         defs.innerHTML = `
             <marker id="arrowhead-d1d5db" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" fill="#d1d5db"><path d="M 0 0 L 10 5 L 0 10 z" /></marker>
@@ -502,6 +571,10 @@ function drawLinks(mindMapState, selectedNodeId) {
         `;
     }
 
+<<<<<<< HEAD
+=======
+    // Draw Links between nodes
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
     mindMapState.links.forEach(link => {
         const sourceNode = mindMapState.nodes.find(n => n.id === link.source);
         const targetNode = mindMapState.nodes.find(n => n.id === link.target);
@@ -512,7 +585,11 @@ function drawLinks(mindMapState, selectedNodeId) {
         
         const isSelected = link.source === selectedNodeId || link.target === selectedNodeId;
         const strokeColor = isSelected ? "#fcd34d" : "#d1d5db";
+<<<<<<< HEAD
         const markerFill = isSelected ? "fcd34d" : "d1d5db"; 
+=======
+        const markerFill = isSelected ? "fcd34d" : "d1d5db"; // Use for marker id reference
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
         
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute('x1', sourceCenter.x);
@@ -526,6 +603,7 @@ function drawLinks(mindMapState, selectedNodeId) {
         svg.appendChild(line);
     });
     
+<<<<<<< HEAD
     // Draw dotted lines from timeline to nodes
     mindMapState.nodes.forEach(node => {
         if (node.type !== 'outcome' && node.year) {
@@ -549,18 +627,102 @@ function drawLinks(mindMapState, selectedNodeId) {
             // Draw dotted line from timeline to node
             const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
             line.setAttribute('x1', '80'); // Timeline line position
+=======
+    // Draw timeline and dotted lines
+    const startYearInput = document.getElementById('start-year');
+    const endYearInput = document.getElementById('end-year');
+    const timelineLine = document.getElementById('timeline-line');
+    const timelineYearsContainer = document.getElementById('timeline-years');
+
+    if (!startYearInput || !endYearInput || !timelineLine || !timelineYearsContainer) return;
+    
+    const timelineStartYear = parseInt(startYearInput.value);
+    const timelineEndYear = parseInt(endYearInput.value);
+    const timelineRange = timelineEndYear - timelineStartYear;
+
+    if (isNaN(timelineStartYear) || isNaN(timelineEndYear) || timelineRange < 1) return;
+
+    // Reset years container and calculate total height needed
+    timelineYearsContainer.innerHTML = '';
+    
+    // Arbitrary starting margin and spacing to make it visible
+    const TOP_OFFSET = 100;
+    const CANVAS_HEIGHT = document.getElementById('mind-map-canvas').offsetHeight;
+    const PIXEL_PER_YEAR = (CANVAS_HEIGHT - TOP_OFFSET * 2) / (timelineRange + 1);
+
+    // Timeline line position is fixed at 80px from left
+    const TIMELINE_X = 80;
+
+    // Redraw Year Markers (from endYear down to startYear)
+    for (let year = timelineEndYear; year >= timelineStartYear; year--) {
+        const yearIndex = timelineEndYear - year;
+        const yPos = TOP_OFFSET + yearIndex * PIXEL_PER_YEAR;
+
+        // 1. Year Label
+        const yearLabel = document.createElement('div');
+        yearLabel.className = 'absolute text-lg font-mono font-bold text-blue-300 transform -translate-x-full pr-4';
+        yearLabel.style.top = `${yPos - 12}px`; // Centered vertically
+        yearLabel.textContent = year;
+        timelineYearsContainer.appendChild(yearLabel);
+
+        // 2. Year Ridge/Mark on the blue line
+        const yearRidge = document.createElement('div');
+        yearRidge.className = 'absolute w-6 h-1 bg-blue-500 rounded-full transform -translate-x-1/2';
+        yearRidge.style.left = `${TIMELINE_X}px`;
+        yearRidge.style.top = `${yPos}px`;
+        timelineYearsContainer.appendChild(yearRidge);
+    }
+    
+    // Draw dotted lines from timeline to nodes
+    mindMapState.nodes.forEach(node => {
+        if (node.type !== 'outcome' && node.year) {
+            
+            // Check if node's year is within the set range
+            if (node.year < timelineStartYear || node.year > timelineEndYear) return;
+
+            // Calculate Y position based on the node's year
+            const yearIndex = timelineEndYear - node.year;
+            const timelineY = TOP_OFFSET + yearIndex * PIXEL_PER_YEAR;
+            
+            // Draw dotted line from timeline ridge to node center's Y position
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute('x1', TIMELINE_X); // Timeline line position
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
             line.setAttribute('y1', timelineY);
             line.setAttribute('x2', node.x); // Node left edge
             line.setAttribute('y2', timelineY); // Connect to the same Y as the timeline ridge
             line.setAttribute('stroke', '#94a3b8'); // Gray color
             line.setAttribute('stroke-width', '2');
             line.setAttribute('stroke-dasharray', '5,5'); // Dotted line
+<<<<<<< HEAD
             line.setAttribute('data-node-id', node.id); // Add data attribute to track which node this line belongs to
             console.log('Created dotted line for node:', node.id, 'with data attribute:', line.getAttribute('data-node-id'));
             
             svg.appendChild(line);
         }
     });
+=======
+            line.setAttribute('data-node-id', node.id); 
+            
+            svg.appendChild(line);
+            
+            // Adjust the node's visual Y position to snap to the timeline
+            const nodeElement = document.getElementById(node.id);
+            if (nodeElement) {
+                // We use timelineY as the center of the node, so we need to adjust
+                const nodeHeight = nodeElement.offsetHeight; 
+                nodeElement.style.top = `${timelineY - (nodeHeight / 2)}px`;
+            }
+
+        }
+    });
+
+    // Fix the height of the main blue line to match the drawn markers
+    const finalYPos = TOP_OFFSET + timelineRange * PIXEL_PER_YEAR;
+    timelineLine.style.height = `${finalYPos - TOP_OFFSET}px`;
+    timelineLine.style.top = `${TOP_OFFSET}px`;
+    timelineLine.style.left = `${TIMELINE_X}px`;
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
 }
 
 function getNodeCenter(node) {
@@ -568,6 +730,7 @@ function getNodeCenter(node) {
     if (!nodeElement) return { x: node.x + 100, y: node.y + 20 }; // Fallback for estimated size
     return { x: node.x + nodeElement.offsetWidth / 2, y: node.y + nodeElement.offsetHeight / 2 };
 }
+<<<<<<< HEAD
 
 // --- TIMELINE FUNCTIONS (Restored from original code) ---
 
@@ -1073,3 +1236,5 @@ export function renderSignupPage(onSignup, onGoToLogin) {
   };
   document.getElementById("goto-login").onclick = onGoToLogin;
 }
+=======
+>>>>>>> b9f5e10b755138cd823764ae7a50e773d353d529
